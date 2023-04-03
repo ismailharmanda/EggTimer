@@ -7,10 +7,25 @@
 //
 
 import UIKit
+import AVFoundation
 
 class ViewController: UIViewController {
     
-    let eggTimes:[String:Int]=["Soft":300,"Medium":420,"Hard":5]
+    var player:AVAudioPlayer!
+    
+    
+    func playAlarm(){
+        do {
+            try AVAudioSession.sharedInstance().setCategory(.playback)
+        } catch(let error) {
+            print(error.localizedDescription)
+        }
+        let url=Bundle.main.url(forResource: "alarm_sound", withExtension: "mp3")
+        player=try! AVAudioPlayer(contentsOf: url!)
+        player.play()
+    }
+    
+    let eggTimes:[String:Int]=["Soft":300,"Medium":420,"Hard":3]
     var timer=Timer()
     var totalTime=0
     var secondsPassed=0
@@ -20,6 +35,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var progressBar: UIProgressView!
     
     @IBAction func hardnessSelected(_ sender: UIButton) {
+        player?.stop()
         let hardness=sender.currentTitle!
         progressBar.progress=0
         secondsPassed=0
@@ -36,6 +52,7 @@ class ViewController: UIViewController {
         if secondsPassed>=totalTime {
             timer.invalidate()
             counterLabel.text="DONE!"
+            playAlarm()
         }
     }
 }
