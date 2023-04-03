@@ -25,7 +25,7 @@ class ViewController: UIViewController {
         player.play()
     }
     
-    let eggTimes:[String:Int]=["Soft":300,"Medium":420,"Hard":3]
+    let eggTimes:[String:Int]=["Soft":300,"Medium":420,"Hard":720]
     var timer=Timer()
     var totalTime=0
     var secondsPassed=0
